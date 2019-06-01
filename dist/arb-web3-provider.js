@@ -58056,7 +58056,7 @@ class ArbProvider extends ethers.providers.BaseProvider {
     // method is the method name (e.g. getBalance) and params is an
     // object with normalized values passed in, depending on the method
     perform(method, params) {
-      console.log("perform", method, params)
+      // console.log("perform", method, params)
       var self = this
       switch(method) {
         case "getCode":
@@ -58075,14 +58075,12 @@ class ArbProvider extends ethers.providers.BaseProvider {
                 if (err) {
                   reject(error)
                 } else {
-                  console.log("assertionCount", result["assertionCount"])
                   resolve(result["assertionCount"])
                 }
               }
             )
           });
         case "getTransactionReceipt":
-          console.log("Getting transaction reciept", params.transactionHash)
           return new Promise(function(resolve, reject) {
             self.client.request(
               'Validator.GetMessageResult',
@@ -58111,7 +58109,6 @@ class ArbProvider extends ethers.providers.BaseProvider {
                       "cumulativeGasUsed": 1,
                       "status": status
                     }
-                    console.log("Got reciept", receipt)
                     resolve(receipt);
                   } else {
                     resolve(null)
@@ -58122,7 +58119,6 @@ class ArbProvider extends ethers.providers.BaseProvider {
           });
 
         case "getTransaction":
-          console.log("Getting transaction", params.transactionHash)
           var getMessageRequest = () => new Promise(function(resolve, reject) {
             self.client.request(
               'Validator.GetMessageResult',
@@ -58150,7 +58146,6 @@ class ArbProvider extends ethers.providers.BaseProvider {
                       "data": result["data"],
                       "status": result["success"]
                     }
-                    console.log("Got reciept", receipt)
                     resolve(receipt);
                   } else {
                     resolve(null)
@@ -58173,7 +58168,6 @@ class ArbProvider extends ethers.providers.BaseProvider {
             }
           });
         case "getLogs":
-          console.log(params.filter)
           return new Promise(function(resolve, reject) {
             let data = {
                 "fromHeight": params.filter.fromBlock,
@@ -58188,7 +58182,6 @@ class ArbProvider extends ethers.providers.BaseProvider {
                 if (err) {
                   reject(error)
                 } else {
-                  console.log("FindLogs", result["logs"])
                   resolve(result["logs"])
                 }
               }
@@ -58196,12 +58189,11 @@ class ArbProvider extends ethers.providers.BaseProvider {
           });
       }
       let forwardResponse = self.provider.perform(method, params);
-      console.log("forwardResponse", method, forwardResponse);
+      console.log("Forwarding query to provider", method, forwardResponse);
       return forwardResponse;
     }
 
     async call(transaction) {
-      console.log("CALL", transaction);
       let dest = await transaction.to
       let self = this;
       let contractData = self.contracts[dest.toLowerCase()]
@@ -58218,13 +58210,10 @@ class ArbProvider extends ethers.providers.BaseProvider {
             [data],
             function(err, error, result) {
               if (err) {
-                console.log("Call error", data, err)
                 reject(err)
               } else if (error) {
-                console.log("Call error", data, error)
                 reject(error)
               } else {
-                console.log("Call return", result)
                 if (result["Success"]) {
                   resolve(result["ReturnVal"])
                 } else {
@@ -58253,7 +58242,6 @@ class ArbWallet extends ethers.Signer {
 
         let self = this
         provider.provider.getBlockNumber().then(height => {
-          console.log("Height:", height)
           var seq = ethers.utils.bigNumberify(height)
           for (var i = 0; i < 128; i++) {
             seq = seq.mul(2);
@@ -58271,7 +58259,6 @@ class ArbWallet extends ethers.Signer {
     }
 
     async sendTransaction(transaction) {
-      console.log("sendTransaction", transaction)
       let self = this
       self.seq = self.seq.add(2)
 
@@ -58291,9 +58278,7 @@ class ArbWallet extends ethers.Signer {
           )
         });
         if (!transaction.value || transaction.value == 0) {
-          console.log("Sending message", self.seq)
           let seqHex = self.seq.toHexString()
-          console.log("seq", self.seq, seqHex)
           let data = {
             "address": dest,
             "data": transaction.data,
@@ -58312,21 +58297,15 @@ class ArbWallet extends ethers.Signer {
               }
             )
           })
-          console.log("Got data hash", dataHash)
-          console.log("Hashing message", [ vmId, dataHash, "0x00", ethers.utils.hexZeroPad("0x00", 21) ])
           let messageHash = ethers.utils.solidityKeccak256(
             [ 'bytes32', 'bytes32', 'uint256', 'bytes21'],
             [ vmId, dataHash, "0x00", ethers.utils.hexZeroPad("0x00", 21) ]
           );
 
-          console.log("Got messageHash", messageHash)
-
           let messageHashBytes = ethers.utils.arrayify(messageHash)
           let sig = await self.signer.signMessage(messageHashBytes)
           let recovered = ethers.utils.recoverAddress(messageHashBytes, sig);
           
-
-          console.log("sig:", sig)
           data["signature"] = sig
           let txHash = await new Promise(function(resolve, reject) {
             self.client.request(
@@ -58336,15 +58315,12 @@ class ArbWallet extends ethers.Signer {
                 if (err) {
                   reject(error)
                 } else {
-                  console.log("Sent message with hash", result["hash"])
                   resolve(result["hash"])
                 }
               });
           })
           let tx = await self.provider.getTransaction(txHash)
-          console.log("sendtransaction got res", tx)
           let ret = self.provider._wrapTransaction(tx, txHash)
-          console.log("sendtransaction wrapped tx", ret)
           return ret
         } else {
           let data = await new Promise(function(resolve, reject) {
