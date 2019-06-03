@@ -58618,22 +58618,25 @@ class ArbClient {
   }
 
   findLogs(fromBlock, toBlock, address, topics) {
-    return self.client.request(
-      'Validator.FindLogs',
-      [{
-        "fromHeight": fromBlock,
-        "toHeight": toBlock,
-        "address": address,
-        "topics": topics
-      }],
-      function(err, error, result) {
-        if (err) {
-          reject(error)
-        } else {
-          resolve(result["logs"])
+    let self = this
+    return new Promise(function(resolve, reject) {
+      return self.client.request(
+        'Validator.FindLogs',
+        [{
+          "fromHeight": fromBlock,
+          "toHeight": toBlock,
+          "address": address,
+          "topics": topics
+        }],
+        function(err, error, result) {
+          if (err) {
+            reject(error)
+          } else {
+            resolve(result["logs"])
+          }
         }
-      }
-    )
+      )
+    })
   }
 
   getVmID() {
