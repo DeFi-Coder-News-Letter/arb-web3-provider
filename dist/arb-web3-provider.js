@@ -1,19 +1,3 @@
-/*
- * Copyright 2019, Offchain Labs, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
- */
-
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ArbProvider = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 
 },{}],2:[function(require,module,exports){
@@ -282,7 +266,24 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
 },{"process/browser.js":2,"timers":3}],4:[function(require,module,exports){
+/*
+ * Copyright 2019, Offchain Labs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 module.exports = require('./lib/index.js')
+
 },{"./lib/index.js":7}],5:[function(require,module,exports){
 module.exports={
   "contractName": "VMTracker",
@@ -58019,6 +58020,22 @@ module.exports={
   }
 }
 },{}],6:[function(require,module,exports){
+/*
+ * Copyright 2019, Offchain Labs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 const ethers = require('ethers');
 const utils = ethers.utils;
 
@@ -58107,7 +58124,6 @@ class IntValue extends Value {
     }
 
     hash() {
-        console.log(this.bignum)
         return utils.solidityKeccak256(['uint256'], [this.bignum]);
     }
 
@@ -58411,6 +58427,22 @@ module.exports = {
 }
 
 },{"ethers":11}],7:[function(require,module,exports){
+/*
+ * Copyright 2019, Offchain Labs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 const ethers = require('ethers');
 var jaysonBrowserClient = require('jayson/lib/client/browser');
 var fetch = require('node-fetch');
@@ -58902,6 +58934,7 @@ class ArbWallet extends ethers.Signer {
 }
 
 module.exports = ArbProvider
+
 },{"./VMTracker.json":5,"./arb-value":6,"ethers":11,"jayson/lib/client/browser":12,"node-fetch":68,"promise-poller":69}],8:[function(require,module,exports){
 (function (process,global,setImmediate){
 /* @preserve
@@ -67286,6 +67319,22 @@ function v4(options, buf, offset) {
 module.exports = v4;
 
 },{"./lib/bytesToUuid":71,"./lib/rng":72}],74:[function(require,module,exports){
+/*
+ * Copyright 2019, Offchain Labs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 'use strict';
 
 // Code taken from https://github.com/ethers-io/ethers-web3-bridge
@@ -67979,6 +68028,22 @@ utils.defineProperty(ProviderBridge.prototype, 'send', function(payload) {
 module.exports = ProviderBridge;
 
 },{"./package.json":120,"ethers-providers":80,"ethers-utils":93}],75:[function(require,module,exports){
+/*
+ * Copyright 2019, Offchain Labs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 const ethers = require('ethers');
 const ArbProvider = require('arb-ethers-provider');
 var ProviderBridge = require('./ethers-web3-bridge');
@@ -76386,15 +76451,15 @@ assert.equal = function assertEqual(l, r, msg) {
 },{}],120:[function(require,module,exports){
 module.exports={
   "name": "arb-web3-provider",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Arbitrum provider for web3",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OffchainLabs/arb-web3-provider.git"
   },
-  "author": "Offchain Labs",
-  "license": "UNLICENSED",
+  "author": "Offchain Labs, Inc.",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/OffchainLabs/arb-web3-provider/issues"
   },
